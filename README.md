@@ -18,4 +18,4 @@ Then you need to link your project to the UGS stuff. Unity has some great docs o
 <br/>
 Once you have all your UGS stuff set up you need to go to the Resources folder in your project, right click and head to Create > Remote Config Setup
 <br/> 
-Very important make sure the scriptable object is named "Environment", but after that feel free to just fill it with your environment Id's and your off to the races!
+Very important make sure the scriptable object is named "Environment", but after that feel free to just fill it with your environment Id's and you're off to the races!
