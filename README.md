@@ -1,7 +1,7 @@
 <h1>Easy Remote Config</h1>
 This is a unity package for Unity 2022.3 that simplifys the proccess of creating a remotely configurable field
 
-Current the package only handles simple fields (int, float, string, bool, ect...) but I plan on adding support for more complex types as well as collections
+Current the package only handles simple fields (int, float, string, bool, ect...) as well as basic collections such as lists and arrays but I plan on adding support for more complex types in the near future
 
 <h1>Example</h1>
 <code>[RemoteField] private int thisFieldIsRemote = 0;</code> 

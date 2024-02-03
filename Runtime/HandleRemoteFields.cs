@@ -1,4 +1,5 @@
-using System;
+using Newtonsoft.Json.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -43,12 +44,12 @@ namespace RemoteConfigHelper
                 try
                 {
                     // Cast remoteValue to the type of the field
-                    object convertedValue = Convert.ChangeType(remoteValue, fields[i].FieldType);
+                    object convertedValue = HandleConversions.Convert(remoteValue, fields[i].GetValue(objects[i]));
 
                     // override the local with the remote
                     fields[i].SetValue(objects[i], convertedValue);
                 }
-                catch (Exception ex)
+                catch (System.Exception ex)
                 {
                     Debug.LogWarning($"Failed to override local field \"{fields[i].Name}\" because {ex}");
                 }
@@ -65,9 +66,9 @@ namespace RemoteConfigHelper
             List<MonoBehaviour> objects = new List<MonoBehaviour>();
             foreach (var obj in MonoBehaviour.FindObjectsOfType<MonoBehaviour>())
             {
-                Type type = obj.GetType();
+                System.Type type = obj.GetType();
                 var fieldWithAttribute = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                    .Where(field => Attribute.IsDefined(field, typeof(RemoteField)))
+                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteField)))
                     .ToList();
                 foreach (var field in fieldWithAttribute)
                 {
