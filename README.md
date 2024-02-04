@@ -1,5 +1,5 @@
 <h1>Easy Remote Config</h1>
-This is a unity package for Unity 2022.3 that simplifys the proccess of creating a remotely configurable field
+This is a Unity package for Unity 2022.3 that simplifys the proccess of creating a remotely configurable field
 <br/>
 <br/>
 Current the package only handles simple fields (int, float, string, bool, ect...) as well as basic collections such as lists and arrays
