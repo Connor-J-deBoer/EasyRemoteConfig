@@ -1,11 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using System.Reflection;
 using System.Threading.Tasks;
 using Unity.Services.RemoteConfig;
-using UnityEngine;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 {
     internal class HandleRemoteData
     {
@@ -50,7 +51,7 @@ namespace RemoteConfigHelper
         /// call him more than once he doesn't authenticate and fetch more than once
         /// </summary>
         /// <returns>the remote RuntimeConfig</returns>
-        private async Task<RuntimeConfig> GetRemote()
+        internal async Task<RuntimeConfig> GetRemote()
         {
             if (_jsonObject != null) return _jsonObject;
 

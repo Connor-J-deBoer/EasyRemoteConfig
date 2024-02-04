@@ -1,9 +1,13 @@
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 { 
     internal static class HandleConversions
     {

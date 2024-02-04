@@ -1,11 +1,12 @@
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
-    public class RemoteField : Attribute { }
+    public class RemoteFieldAttribute : PropertyAttribute { }
 }
-

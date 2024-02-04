@@ -1,13 +1,15 @@
-using Newtonsoft.Json.Linq;
-using System.Collections;
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using UnityEngine;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 {
-    public class HandleRemoteFields
+    public sealed class HandleRemoteFields
     {
         private HandleRemoteFields() { }
         private static HandleRemoteFields _instance = null;
@@ -68,7 +70,7 @@ namespace RemoteConfigHelper
             {
                 System.Type type = obj.GetType();
                 var fieldWithAttribute = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteField)))
+                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
                     .ToList();
                 foreach (var field in fieldWithAttribute)
                 {

@@ -1,18 +1,17 @@
 //=================================================================\\
-//===Copyright (C) 2023 FORGOTTEN_FILES VFS, All Rights Reserved===\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using Unity.Services.Core;
 using Unity.Services.Authentication;
 using UnityEngine;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 {
     public class Connection
     {
-        private static Config _config => (Config)Resources.Load("Environment");
+        private static EnvironmentConfig _config => (EnvironmentConfig)Resources.Load("Environment");
         private static Connection _instance = null;
 
         public string RemoteID => _config.CurrentEnvironment;

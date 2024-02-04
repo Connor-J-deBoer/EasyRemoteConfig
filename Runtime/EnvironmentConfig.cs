@@ -2,10 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace RemoteConfigHelper
+namespace Connor.RemoteConfigHelper
 {
-    [CreateAssetMenu(menuName = "Remote Config Setup")]
-    public class Config : ScriptableObject
+    [CreateAssetMenu(menuName = "Remote Config Setup/Environment Config")]
+    public class EnvironmentConfig : ScriptableObject
     {
         [SerializeField] private Environments _currentEnvironment;
 
