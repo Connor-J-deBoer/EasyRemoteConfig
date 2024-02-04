@@ -21,7 +21,7 @@ namespace Connor.RemoteConfigHelper
             if (EditorGUI.EndChangeCheck())
             {
                 if (!_serviceConfig || !_environmentConfig) return;
-                await HandleUGSApi.PushToRemote(_serviceConfig, _environmentConfig, property.boxedValue);
+                await HandleUGSApi.PushToRemote(_serviceConfig, _environmentConfig, property);
             }
         }
     }

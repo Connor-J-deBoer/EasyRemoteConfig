@@ -51,7 +51,7 @@ namespace Connor.RemoteConfigHelper
         /// call him more than once he doesn't authenticate and fetch more than once
         /// </summary>
         /// <returns>the remote RuntimeConfig</returns>
-        internal async Task<RuntimeConfig> GetRemote()
+        private async Task<RuntimeConfig> GetRemote()
         {
             if (_jsonObject != null) return _jsonObject;
 
