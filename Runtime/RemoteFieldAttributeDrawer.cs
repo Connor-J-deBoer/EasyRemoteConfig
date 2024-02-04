@@ -20,7 +20,7 @@ namespace Connor.RemoteConfigHelper
             EditorGUI.PropertyField(position, property, label, true);
             if (EditorGUI.EndChangeCheck())
             {
-                if (!_serviceConfig || !_environmentConfig || property.boxedValue.GetType() is IList) return;
+                if (!_serviceConfig || !_environmentConfig || label.text.Contains("Element")) return;
                 await HandleUGSApi.PushToRemote(_serviceConfig, _environmentConfig, property);
             }
         }
