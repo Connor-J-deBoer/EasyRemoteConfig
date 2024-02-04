@@ -52,7 +52,6 @@ namespace Connor.RemoteConfigHelper
                 {
                     string responseJson = await response.Content.ReadAsStringAsync();
                     _responseJson = responseJson;
-                    Debug.Log("Fetched JSON");
                 }
                 else
                 {
@@ -113,7 +112,6 @@ namespace Connor.RemoteConfigHelper
             payload.value = payloadValues;
 
             var payloadString = JsonConvert.SerializeObject(payload);
-            Debug.Log(payloadString);
             try
             {
                 string endpoint = $"{serviceConfig.ProjectID}/configs/{_configId}";
@@ -122,7 +120,7 @@ namespace Connor.RemoteConfigHelper
                 HttpResponseMessage response = await _client.PutAsync(endpoint, body);
                 if (response.IsSuccessStatusCode)
                 {
-                    Debug.Log("posted JSON");
+                    Debug.Log($"Updated remote {newValue.name} to {newValue.boxedValue}");
                 }
                 else
                 {
