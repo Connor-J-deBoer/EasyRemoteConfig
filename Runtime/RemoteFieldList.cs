@@ -1,8 +1,9 @@
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
 
 namespace Connor.RemoteConfigHelper.Runtime
 {

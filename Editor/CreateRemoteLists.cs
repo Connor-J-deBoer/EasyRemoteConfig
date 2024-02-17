@@ -1,8 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
+//=================================================================\\
+//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//=================================================================\\
+
 using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
-using UnityEngine;
 using UnityEngine.SceneManagement;
 
 namespace Connor.RemoteConfigHelper.Editor
