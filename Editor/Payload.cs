@@ -6,13 +6,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Editor
 {
     [System.Serializable]
-    public class PayloadValue
+    public class Payload
     {
-        public string key;
-        public string type;
-        public dynamic value;
+        public string type = "settings";
+        public List<PayloadValue> value;
     }
 }

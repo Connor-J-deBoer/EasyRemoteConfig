@@ -7,7 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Runtime
 { 
     internal static class HandleConversions
     {

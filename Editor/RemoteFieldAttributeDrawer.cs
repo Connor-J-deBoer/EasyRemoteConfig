@@ -7,9 +7,10 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper
+
+namespace Connor.RemoteConfigHelper.Editor
 {
-    [CustomPropertyDrawer(typeof(RemoteFieldAttribute))]
+    [CustomPropertyDrawer(typeof(Runtime.RemoteFieldAttribute))]
     public class RemoteFieldAttributeDrawer : PropertyDrawer
     {
         private static ServiceAccountConfig _serviceConfig => (ServiceAccountConfig)Resources.Load("ServiceAccount");

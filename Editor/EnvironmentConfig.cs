@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper.Runtime
+namespace Connor.RemoteConfigHelper
 {
     [CreateAssetMenu(menuName = "Remote Config Setup/Environment Config")]
     public class EnvironmentConfig : ScriptableObject

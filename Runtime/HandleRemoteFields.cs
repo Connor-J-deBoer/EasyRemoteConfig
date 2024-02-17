@@ -2,12 +2,11 @@
 //======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Runtime
 {
     public sealed class HandleRemoteFields
     {
@@ -21,6 +20,8 @@ namespace Connor.RemoteConfigHelper
                 return _instance;
             }
         }
+        
+        private RemoteFieldList _remoteFields => UpdateRemoteFieldList();
 
         /// <summary>
         /// This guy Updates every remote field with their respective remote
@@ -28,13 +29,21 @@ namespace Connor.RemoteConfigHelper
         /// </summary>
         public async void UpdateFields()
         {
+#if UNITY_EDITOR
+            GetRemoteFields.CreateAsset();
+#endif
             HandleRemoteData remote = new HandleRemoteData();
-            var result = GetFields();
-            FieldInfo[] fields = result.Item1.ToArray();
-            MonoBehaviour[] objects = result.Item2.ToArray();
 
+            string[] fieldNames = _remoteFields.RemoteFields.ToArray();
+            string[] declaringTypeName = _remoteFields.FieldDeclaringTypeNames.ToArray();
+            string[] objectNames = _remoteFields.RemoteObjects.ToArray();
+            FieldInfo[] fields = new FieldInfo[fieldNames.Length];
+            MonoBehaviour[] objects = new MonoBehaviour[fieldNames.Length];
             for (int i = 0; i < fields.Length; ++i)
             {
+                objects[i] = (MonoBehaviour)GameObject.Find(objectNames[i]).GetComponent(declaringTypeName[i]);
+                fields[i] = objects[i].GetType().GetField(fieldNames[i], BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic);
+
                 // get the remote value
                 dynamic remoteValue = await remote.GetValue(fields[i]);
                 if (remoteValue == null)
@@ -58,27 +67,11 @@ namespace Connor.RemoteConfigHelper
             }
         }
 
-        /// <summary>
-        /// This guy finds all the fields in the current scene with the RemoteField attribute
-        /// </summary>
-        /// <returns>a tuple where item one is a list of fields and item two is a list of their parent objects</returns>
-        private (List<FieldInfo>, List<MonoBehaviour>) GetFields()
+        private RemoteFieldList UpdateRemoteFieldList()
         {
-            List<FieldInfo> fields = new List<FieldInfo>();
-            List<MonoBehaviour> objects = new List<MonoBehaviour>();
-            foreach (var obj in MonoBehaviour.FindObjectsOfType<MonoBehaviour>())
-            {
-                System.Type type = obj.GetType();
-                var fieldWithAttribute = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
-                    .ToList();
-                foreach (var field in fieldWithAttribute)
-                {
-                    fields.Add(field);
-                    objects.Add(obj);
-                }
-            }
-            return (fields, objects);
+            string remoteListJson = System.IO.File.ReadAllText($"Assets/Resources/RemoteList_{SceneManager.GetActiveScene().name}/RemoteList.json");
+            RemoteFieldList remoteList = JsonUtility.FromJson<RemoteFieldList>(remoteListJson);
+            return remoteList;
         }
     }
 }

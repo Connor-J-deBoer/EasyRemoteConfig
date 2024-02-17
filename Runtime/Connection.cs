@@ -7,7 +7,7 @@ using Unity.Services.Core;
 using Unity.Services.Authentication;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Runtime
 {
     public class Connection
     {

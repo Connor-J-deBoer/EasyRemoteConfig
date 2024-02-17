@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Editor
 {
     internal static class HandleUGSApi
     {

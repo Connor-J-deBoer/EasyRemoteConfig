@@ -6,7 +6,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Unity.Services.RemoteConfig;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.RemoteConfigHelper.Runtime
 {
     internal class HandleRemoteData
     {
