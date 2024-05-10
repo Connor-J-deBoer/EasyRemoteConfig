@@ -12,5 +12,11 @@
     "com.unity.services.authentication": "3.1.0",
     "com.unity.remote-config": "4.0.0"
   },
-  "samples": []
+  "samples": [
+    {
+    "displayName": "Example Scene",
+    "description": "An example of what you can make remotely configurable with [RemoteField]",
+    "path": "Samples~/ExampleScene"
+    }
+  ]
 }
