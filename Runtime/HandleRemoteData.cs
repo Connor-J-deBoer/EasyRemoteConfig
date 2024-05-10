@@ -53,8 +53,6 @@ namespace Connor.RemoteConfigHelper.Runtime
         /// <returns>the remote RuntimeConfig</returns>
         private async Task<RuntimeConfig> GetRemote()
         {
-            if (_jsonObject != null) return _jsonObject;
-
             await Connection.Service.Authenticate();
             Remote.SetEnvironmentID(Connection.Service.RemoteID);
 

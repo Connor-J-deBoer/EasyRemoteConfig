@@ -17,14 +17,14 @@ public class ExampleScript : MonoBehaviour
     [RemoteField]
     [Range(0, 1000)]
     [SerializeField] 
-    private int exampleInt = 123;
+    private int _exampleInt = 123;
 
     [RemoteField]
-    public bool ExampleBool = false;
+    public bool ExampleBool = true;
 
     [RemoteField]
     [SerializeField]
-    private List<int> ExampleList = new List<int>()
+    private List<int> _exampleList = new List<int>()
     {
         10,
         20,
