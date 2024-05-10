@@ -14,13 +14,23 @@ namespace Connor.RemoteConfigHelper.Editor
         private static EnvironmentConfig _environmentConfig => (EnvironmentConfig)Resources.Load("Environment");
         public async override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {
+            GUIStyle style = new GUIStyle(EditorStyles.boldLabel);
+            style.normal.textColor = Color.green;
+            EditorGUI.LabelField(position, new GUIContent("Remote Field:"), style);
+            position.y += EditorGUIUtility.singleLineHeight + 2.5f;
+
             EditorGUI.BeginChangeCheck();
-            EditorGUI.PropertyField(position, property, label, true);
+            EditorGUI.PropertyField(position, property, new GUIContent($"{label.text}"), true);
             if (EditorGUI.EndChangeCheck())
             {
                 if (!_serviceConfig || !_environmentConfig || label.text.Contains("Element")) return;
                 await HandleUGSApi.PushToRemote(_serviceConfig, _environmentConfig, property);
             }
+        }
+
+        public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
+        {
+            return EditorGUIUtility.singleLineHeight * 2;
         }
     }
 }
