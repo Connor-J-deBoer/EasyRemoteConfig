@@ -14,6 +14,7 @@ namespace Connor.RemoteConfigHelper.Runtime
 #if UNITY_EDITOR
     public static class GetRemoteFields
     {
+        public static Dictionary<(string, string), string[]> Fields = new Dictionary<(string, string), string[]>();
         private static string _remoteFieldName = "RemoteList";
 
         /// <summary>
@@ -24,9 +25,9 @@ namespace Connor.RemoteConfigHelper.Runtime
         {
             List<FieldInfo> fields = new List<FieldInfo>();
             List<MonoBehaviour> objects = new List<MonoBehaviour>();
-            foreach (var obj in MonoBehaviour.FindObjectsOfType<MonoBehaviour>())
+            foreach (var obj in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
             {
-                System.Type type = obj.GetType();
+                var type = obj.GetType();
                 var fieldWithAttribute = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
                     .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
                     .ToList();
@@ -39,25 +40,42 @@ namespace Connor.RemoteConfigHelper.Runtime
             return (fields, objects);
         }
 
-        public static RemoteFieldList CreateAsset()
+        public static void GetAllFields()
         {
-            RemoteFieldList remoteList = new RemoteFieldList();
+            Fields.Clear();
+            MonoBehaviour[] objects = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
+            foreach (var obj in objects)
+            {
+                // Get every field marked with RemoteFieldAttribute
+                var fieldWithAttribute = obj.GetType().GetFields(
+                        BindingFlags.Instance | 
+                        BindingFlags.NonPublic | 
+                        BindingFlags.Public)
+                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
+                    .ToList();
+                
+                string[] fields = new string[fieldWithAttribute.Count];
+                for (int i = 0; i < fields.Length; ++i)
+                {
+                    fields[i] = $"\"{fieldWithAttribute[i].Name}\": {fieldWithAttribute[i].GetValue(obj)}";
+                }
+                Fields.Add((obj.name, obj.GetType().Name), fields);
+            }
+        }
 
+        public static void CreateAsset()
+        {
             (List<FieldInfo>, List<MonoBehaviour>) data = GetFields();
-            remoteList.RemoteFields = data.Item1.Select(field => field.Name).ToList();
-            remoteList.FieldDeclaringTypeNames = data.Item1.Select(field => field.DeclaringType.Name).ToList();
-            remoteList.RemoteObjects = data.Item2.Select(obj => obj.name).ToList();
 
-            string remoteListJson = JsonUtility.ToJson(remoteList);
+            //string remoteListJson = JsonUtility.ToJson(Fields);
             string path = $"Assets/Resources/RemoteList_{SceneManager.GetActiveScene().name}/";
 
             if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
 
-            System.IO.File.WriteAllText($"{path}/RemoteList.json", remoteListJson);
+            //System.IO.File.WriteAllText($"{path}/RemoteList.json", "{}");
             
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
-            return remoteList;
         }
     }
 #endif

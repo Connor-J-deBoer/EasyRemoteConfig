@@ -4,14 +4,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 namespace Connor.RemoteConfigHelper.Runtime
 {
     [Serializable]
-    public class RemoteFieldList
+    public struct RemoteFieldList<T>
     {
         public List<string> RemoteFields;
-        public List<string> FieldDeclaringTypeNames;
-        public List<string> RemoteObjects;
+        public List<T> RemoteFieldsValue;
+        public List<string> RemoteFieldsParentClass;
+        public List<string> RemoteGameObjects;
     }
 }

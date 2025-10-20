@@ -22,16 +22,16 @@ namespace Connor.RemoteConfigHelper.Runtime
         /// <returns>the remote value, null if it fails to find a remote</returns>
         internal async Task<dynamic> GetValue(FieldInfo field)
         {
-            dynamic theObject = await GetSpecificJSON(field.DeclaringType.Name);
-            dynamic value = null;
+            /*var theObject = await GetSpecificJSON(field.DeclaringType?.Name);
+            var value;
             foreach (var val in theObject)
             {
                 if (field.Name == val.Name)
                 {
                     value = val.Value;
                 }
-            }
-            return value;
+            }*/
+            return null;
         }
 
         /// <summary>
