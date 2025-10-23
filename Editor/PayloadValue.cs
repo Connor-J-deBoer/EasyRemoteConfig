@@ -2,7 +2,7 @@
 //======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-namespace Connor.RemoteConfigHelper.Editor
+namespace Connor.EasyRemoteConfig.Editor
 {
     [System.Serializable]
     public class PayloadValue

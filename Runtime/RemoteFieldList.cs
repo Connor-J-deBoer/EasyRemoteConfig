@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace Connor.RemoteConfigHelper.Runtime
+namespace Connor.EasyRemoteConfig.Runtime
 {
     [Serializable]
     public struct RemoteFieldList<T>

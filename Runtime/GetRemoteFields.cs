@@ -5,44 +5,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Connor.RemoteConfigHelper.Runtime
+namespace Connor.EasyRemoteConfig.Runtime
 {
-#if UNITY_EDITOR
     public static class GetRemoteFields
     {
-        public static Dictionary<(string, string), string[]> Fields = new Dictionary<(string, string), string[]>();
-        private static string _remoteFieldName = "RemoteList";
-
-        /// <summary>
-        /// This guy finds all the fields in the current scene with the RemoteField attribute
-        /// </summary>
-        /// <returns>a tuple where item one is a list of fields and item two is a list of their parent objects</returns>
-        private static (List<FieldInfo>, List<MonoBehaviour>) GetFields()
+        private static Dictionary<(string, string), string[]> GetAllFields()
         {
-            List<FieldInfo> fields = new List<FieldInfo>();
-            List<MonoBehaviour> objects = new List<MonoBehaviour>();
-            foreach (var obj in Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None))
-            {
-                var type = obj.GetType();
-                var fieldWithAttribute = type.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
-                    .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
-                    .ToList();
-                foreach (var field in fieldWithAttribute)
-                {
-                    fields.Add(field);
-                    objects.Add(obj);
-                }
-            }
-            return (fields, objects);
-        }
-
-        public static void GetAllFields()
-        {
-            Fields.Clear();
+            Dictionary<(string, string), string[]> fields = new();
             MonoBehaviour[] objects = Object.FindObjectsByType<MonoBehaviour>(FindObjectsInactive.Include, FindObjectsSortMode.None);
             foreach (var obj in objects)
             {
@@ -54,29 +28,50 @@ namespace Connor.RemoteConfigHelper.Runtime
                     .Where(field => System.Attribute.IsDefined(field, typeof(RemoteFieldAttribute)))
                     .ToList();
                 
-                string[] fields = new string[fieldWithAttribute.Count];
-                for (int i = 0; i < fields.Length; ++i)
+                string[] fieldsString = new string[fieldWithAttribute.Count];
+                if (fieldsString.Length == 0)
+                    continue;
+                
+                for (int i = 0; i < fieldsString.Length; ++i)
                 {
-                    fields[i] = $"\"{fieldWithAttribute[i].Name}\": {fieldWithAttribute[i].GetValue(obj)}";
+                    fieldsString[i] = $"\"{fieldWithAttribute[i].Name}\": {fieldWithAttribute[i].GetValue(obj)}";
                 }
-                Fields.Add((obj.name, obj.GetType().Name), fields);
+                fields.Add((obj.name, obj.GetType().Name), fieldsString);
             }
+
+            return fields;
+        }
+
+        private static string BuildJSON(Dictionary<(string, string), string[]> fields)
+        {
+            string json = "{";
+            foreach (var field in fields)
+            {
+                string allFields = "";
+                foreach (var fieldValue in field.Value)
+                {
+                    allFields += $"{fieldValue},";
+                }
+                allFields = allFields.Substring(0, allFields.Length - 1);
+                json += $"\n\t\"{field.Key.Item1}\":\n\t{{\n\t\t\"{field.Key.Item2}\":\n\t\t{{\n\t\t\t{allFields}\n\t\t}}\n\t}},";
+            }
+            json = json.Substring(0, json.Length - 1);
+            json += "\n}";
+            return json;
         }
 
         public static void CreateAsset()
         {
-            (List<FieldInfo>, List<MonoBehaviour>) data = GetFields();
-
-            //string remoteListJson = JsonUtility.ToJson(Fields);
-            string path = $"Assets/Resources/RemoteList_{SceneManager.GetActiveScene().name}/";
-
-            if (!System.IO.Directory.Exists(path)) System.IO.Directory.CreateDirectory(path);
-
-            //System.IO.File.WriteAllText($"{path}/RemoteList.json", "{}");
+            string data = BuildJSON(GetAllFields());
+            string path = $"Assets/Resources/DoNotTouch/";
+            string sceneGuid = AssetDatabase.AssetPathToGUID(SceneManager.GetActiveScene().path);
             
+            if (!System.IO.Directory.Exists(path)) 
+                System.IO.Directory.CreateDirectory(path);
+            
+            System.IO.File.WriteAllText($"{path}ERC-{sceneGuid}.json", data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }
     }
-#endif
 }

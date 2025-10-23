@@ -7,7 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Connor.RemoteConfigHelper.Runtime
+namespace Connor.EasyRemoteConfig.Runtime
 { 
     internal static class HandleConversions
     {
@@ -19,7 +19,6 @@ namespace Connor.RemoteConfigHelper.Runtime
         /// <returns>the converted value</returns>
         internal static object Convert(object valueToConvert, object valueToMatchTypeWith)
         {
-
             if (valueToConvert is JArray newCollection)
             {
                 if (!typeof(IEnumerable<object>).IsAssignableFrom(valueToMatchTypeWith.GetType()))

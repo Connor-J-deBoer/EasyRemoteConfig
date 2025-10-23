@@ -5,7 +5,7 @@
 using System;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper.Runtime
+namespace Connor.EasyRemoteConfig.Runtime
 {
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
     public class RemoteFieldAttribute : PropertyAttribute { }

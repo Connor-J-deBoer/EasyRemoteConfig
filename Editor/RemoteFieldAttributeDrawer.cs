@@ -5,7 +5,7 @@
 using UnityEditor;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper.Editor
+namespace Connor.EasyRemoteConfig.Editor
 {
     [CustomPropertyDrawer(typeof(Runtime.RemoteFieldAttribute))]
     public class RemoteFieldAttributeDrawer : PropertyDrawer

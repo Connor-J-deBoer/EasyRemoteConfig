@@ -6,7 +6,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEngine.SceneManagement;
 
-namespace Connor.RemoteConfigHelper.Editor
+namespace Connor.EasyRemoteConfig.Editor
 {
     public class CreateRemoteListsOnBuild : IProcessSceneWithReport
     {

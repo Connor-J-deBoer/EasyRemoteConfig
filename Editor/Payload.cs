@@ -4,7 +4,7 @@
 
 using System.Collections.Generic;
 
-namespace Connor.RemoteConfigHelper.Editor
+namespace Connor.EasyRemoteConfig.Editor
 {
     [System.Serializable]
     public class Payload

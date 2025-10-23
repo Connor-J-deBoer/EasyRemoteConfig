@@ -5,7 +5,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Connor.RemoteConfigHelper
+namespace Connor.EasyRemoteConfig
 {
     [CreateAssetMenu(menuName = "Remote Config Setup/Service Account Config")]
     public class ServiceAccountConfig : ScriptableObject 
