@@ -12,8 +12,6 @@ namespace Connor.EasyRemoteConfig.Runtime
 {
     public class PushAssets
     {
-        private static readonly string _environment = "Development";
-        
         [MenuItem("Easy Remote Config/Push Current Assets")]
         private static async void PushCurrentAssets()
         {
@@ -22,7 +20,7 @@ namespace Connor.EasyRemoteConfig.Runtime
             
             string projectName = Application.productName;
             FirebaseFirestore db = await FirebaseConnect.DB();
-            DocumentReference docRef = db.Collection(projectName).Document(_environment);
+            DocumentReference docRef = db.Collection(projectName).Document(Environment.CurrentEnvironment);
             Dictionary<string, string> updates = new();
             foreach (var asset in assets)
             {

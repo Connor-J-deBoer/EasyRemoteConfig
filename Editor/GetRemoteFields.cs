@@ -5,7 +5,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -50,10 +49,10 @@ namespace Connor.EasyRemoteConfig.Runtime
                 string allFields = "";
                 foreach (var fieldValue in field.Value)
                 {
-                    allFields += $"{fieldValue},";
+                    allFields += $"{fieldValue},\n\t\t\t";
                 }
                 allFields = allFields.Substring(0, allFields.Length - 1);
-                json += $"\n\t\"{field.Key.Item1}\":\n\t{{\n\t\t\"{field.Key.Item2}\":\n\t\t{{\n\t\t\t{allFields}\n\t\t}}\n\t}},";
+                json += $"\n\t\"{field.Key.Item1}\":\n\t{{\n\t\t\"{field.Key.Item2}\":\n\t\t{{\n\t\t\t{allFields}}}\n\t}},";
             }
             json = json.Substring(0, json.Length - 1);
             json += "\n}";
@@ -64,7 +63,7 @@ namespace Connor.EasyRemoteConfig.Runtime
         {
             string data = BuildJSON(GetAllFields());
             string path = $"Assets/Resources/DoNotTouch/";
-            string sceneGuid = AssetDatabase.AssetPathToGUID(SceneManager.GetActiveScene().path);
+            string sceneGuid = SceneHash.GetSceneId(SceneManager.GetActiveScene());
             
             if (!System.IO.Directory.Exists(path)) 
                 System.IO.Directory.CreateDirectory(path);

@@ -2,7 +2,11 @@
 //======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-using UnityEditor;
+using System.Collections.Generic;
+using System.Reflection;
+using System.Threading.Tasks;
+using Firebase.Firestore;
+using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -10,9 +14,63 @@ namespace Connor.EasyRemoteConfig.Runtime
 {
     public static class UpdateLocalFields
     {
-        public static void Update()
+        public static async void Update()
         {
-            Debug.Log($"Get ERC-{AssetDatabase.AssetPathToGUID(SceneManager.GetActiveScene().path)} from firestore");
+            string stringGuid = $"ERC-{SceneHash.GetSceneId(SceneManager.GetActiveScene())}";
+            var allData = await GetRemoteFields();
+            string sceneValues = allData[stringGuid];
+            
+            OverwriteObjects(sceneValues);
+        }
+
+        private static async Task<Dictionary<string, string>> GetRemoteFields()
+        {
+            FirebaseFirestore db = await FirebaseConnect.DB();
+            DocumentReference docRef = db.Collection(Application.productName).Document(Environment.CurrentEnvironment);
+            DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
+            if (!snapshot.Exists)
+            {
+                Debug.LogWarning($"Could not find remote values");
+                return null;
+            }
+
+            return snapshot.ConvertTo<Dictionary<string, string>>();
+        }
+        
+        private static void OverwriteObjects(string json)
+        {
+            var jsonData = JObject.Parse(json);
+            foreach (var gameobject in jsonData)
+            {
+                GameObject toOverwrite = GameObject.Find(gameobject.Key);
+                if (toOverwrite == null)
+                    continue;
+                var fieldValue = (JObject)gameobject.Value;
+                foreach (var script in fieldValue)
+                {
+                    var component = toOverwrite.GetComponent(script.Key);
+                    if (component == null)
+                        continue;
+                    
+                    var fields = (JObject)script.Value;
+                    foreach (var field in fields)
+                    {
+                        JToken value = field.Value;
+                        SetFields(component, field.Key, value);
+                    }
+                }
+            }
+        }
+
+        private static void SetFields(Component component, string fieldName, JToken value)
+        {
+            var type = component.GetType();
+            var field = type.GetField(fieldName, BindingFlags.Public |  BindingFlags.NonPublic | BindingFlags.Instance);
+            if (field == null)
+                return;
+            
+            var convertedValue = value.ToObject(field.FieldType);
+            field.SetValue(component, convertedValue);
         }
     }
 }
