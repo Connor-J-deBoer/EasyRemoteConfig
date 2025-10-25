@@ -59,7 +59,8 @@ namespace Connor.EasyRemoteConfig.Runtime
             return json;
         }
 
-        public static void CreateAsset()
+        [MenuItem("Easy Remote Config/Create Remote Asset")]
+        private static void CreateAsset()
         {
             string data = BuildJSON(GetAllFields());
             string path = $"Assets/Resources/DoNotTouch/";

@@ -12,22 +12,24 @@ namespace Connor.EasyRemoteConfig.Runtime
 {
     public class PushAssets
     {
+        private static Context _context => Resources.Load<Context>("Context"); 
         [MenuItem("Easy Remote Config/Push Current Assets")]
         private static async void PushCurrentAssets()
         {
             var assets = Resources.LoadAll<TextAsset>("DoNotTouch");
             assets = assets.Where(ass => ass.name.Contains("ERC")).ToArray();
-            
-            string projectName = Application.productName;
+
+            string projectName = _context.GetRemoteUID();
             FirebaseFirestore db = await FirebaseConnect.DB();
-            DocumentReference docRef = db.Collection(projectName).Document(Environment.CurrentEnvironment);
             Dictionary<string, string> updates = new();
             foreach (var asset in assets)
             {
-                updates.Add(asset.name, asset.text);
+                DocumentReference docRef = db.Collection("Remotes").Document(projectName).Collection(_context.CurrentEnvironment).Document(asset.name);
+                string sceneName = SceneHash.GetScene(asset.name.Split('-')[1]);
+                updates.Add($"{sceneName}", asset.text);
+                
+                await docRef.SetAsync(updates);
             }
-
-            await docRef.SetAsync(updates);
         }
     }
 }

@@ -14,11 +14,11 @@ namespace Connor.EasyRemoteConfig.Runtime
 {
     public static class UpdateLocalFields
     {
+        private static Context _context => Resources.Load<Context>("Context"); 
         public static async void Update()
         {
-            string stringGuid = $"ERC-{SceneHash.GetSceneId(SceneManager.GetActiveScene())}";
             var allData = await GetRemoteFields();
-            string sceneValues = allData[stringGuid];
+            string sceneValues = allData[SceneManager.GetActiveScene().name];
             
             OverwriteObjects(sceneValues);
         }
@@ -26,7 +26,7 @@ namespace Connor.EasyRemoteConfig.Runtime
         private static async Task<Dictionary<string, string>> GetRemoteFields()
         {
             FirebaseFirestore db = await FirebaseConnect.DB();
-            DocumentReference docRef = db.Collection(Application.productName).Document(Environment.CurrentEnvironment);
+            DocumentReference docRef = db.Collection("Remotes").Document(_context.GetRemoteUID()).Collection(_context.CurrentEnvironment).Document($"ERC-{SceneHash.GetSceneId(SceneManager.GetActiveScene())}");
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists)
             {
@@ -43,13 +43,13 @@ namespace Connor.EasyRemoteConfig.Runtime
             foreach (var gameobject in jsonData)
             {
                 GameObject toOverwrite = GameObject.Find(gameobject.Key);
-                if (toOverwrite == null)
+                if (!toOverwrite)
                     continue;
                 var fieldValue = (JObject)gameobject.Value;
                 foreach (var script in fieldValue)
                 {
                     var component = toOverwrite.GetComponent(script.Key);
-                    if (component == null)
+                    if (!component)
                         continue;
                     
                     var fields = (JObject)script.Value;

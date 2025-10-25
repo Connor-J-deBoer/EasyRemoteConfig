@@ -23,7 +23,6 @@ namespace Connor.EasyRemoteConfig.Runtime
             if (dependencyStatus != DependencyStatus.Available)
                 throw new Exception("Could not resolve all Firebase dependencies");
             
-            FirebaseApp app = FirebaseApp.DefaultInstance;
             _db = FirebaseFirestore.DefaultInstance;
         }
 
