@@ -16,16 +16,21 @@ namespace Connor.EasyRemoteConfig.Runtime
         [MenuItem("Easy Remote Config/Push Current Assets")]
         private static async void PushCurrentAssets()
         {
-            var assets = Resources.LoadAll<TextAsset>("DoNotTouch");
-            assets = assets.Where(ass => ass.name.Contains("ERC")).ToArray();
-
+            string[] guids = AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/ERC" });
+            if (guids.Length == 0)
+            {
+                Debug.LogError("No Default Values Found");
+                return;
+            }
+            
+            TextAsset[] assets = guids.Select(guid => AssetDatabase.LoadAssetAtPath<TextAsset>(AssetDatabase.GUIDToAssetPath(guid))).ToArray();
             string projectName = _context.GetRemoteUID();
             FirebaseFirestore db = await FirebaseConnect.DB();
             Dictionary<string, string> updates = new();
             foreach (var asset in assets)
             {
                 DocumentReference docRef = db.Collection("Remotes").Document(projectName).Collection(_context.CurrentEnvironment).Document(asset.name);
-                string sceneName = SceneHash.GetScene(asset.name.Split('-')[1]);
+                string sceneName = SceneHash.GetScene(asset.name);
                 updates.Add($"{sceneName}", asset.text);
                 
                 await docRef.SetAsync(updates);

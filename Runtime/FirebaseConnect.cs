@@ -3,13 +3,9 @@
 //=================================================================\\
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;
-using UnityEditor;
-using UnityEngine;
 
 namespace Connor.EasyRemoteConfig.Runtime
 {

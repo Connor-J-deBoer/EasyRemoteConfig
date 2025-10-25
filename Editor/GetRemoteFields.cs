@@ -5,11 +5,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Connor.EasyRemoteConfig.Runtime;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace Connor.EasyRemoteConfig.Editor
 {
     public static class GetRemoteFields
     {
@@ -33,7 +34,9 @@ namespace Connor.EasyRemoteConfig.Runtime
                 
                 for (int i = 0; i < fieldsString.Length; ++i)
                 {
-                    fieldsString[i] = $"\"{fieldWithAttribute[i].Name}\": {fieldWithAttribute[i].GetValue(obj)}";
+                    fieldsString[i] = $"\"{fieldWithAttribute[i].Name}\":\n\t\t\t{{\n\t\t\t\t";
+                    fieldsString[i] += $"\"value\": \"{fieldWithAttribute[i].GetValue(obj)}\",\n\t\t\t\t";
+                    fieldsString[i] += $"\"type\": \"{fieldWithAttribute[i].FieldType}\"\n\t\t\t}}";
                 }
                 fields.Add((obj.name, obj.GetType().Name), fieldsString);
             }
@@ -41,9 +44,9 @@ namespace Connor.EasyRemoteConfig.Runtime
             return fields;
         }
 
-        private static string BuildJSON(Dictionary<(string, string), string[]> fields)
+        private static string BuildAssetContent(Dictionary<(string, string), string[]> fields)
         {
-            string json = "{";
+            string remoteList = "{";
             foreach (var field in fields)
             {
                 string allFields = "";
@@ -51,25 +54,25 @@ namespace Connor.EasyRemoteConfig.Runtime
                 {
                     allFields += $"{fieldValue},\n\t\t\t";
                 }
-                allFields = allFields.Substring(0, allFields.Length - 1);
-                json += $"\n\t\"{field.Key.Item1}\":\n\t{{\n\t\t\"{field.Key.Item2}\":\n\t\t{{\n\t\t\t{allFields}}}\n\t}},";
+                allFields = allFields.Substring(0, allFields.Length - 5);
+                remoteList += $"\n\t\"{field.Key.Item1}\":\n\t{{\n\t\t\"{field.Key.Item2}\":\n\t\t{{\n\t\t\t{allFields}\n\t\t}}\n\t}},";
             }
-            json = json.Substring(0, json.Length - 1);
-            json += "\n}";
-            return json;
+            remoteList = remoteList.Substring(0, remoteList.Length - 1);
+            remoteList += "\n}";
+            return remoteList;
         }
-
+        
         [MenuItem("Easy Remote Config/Create Remote Asset")]
         private static void CreateAsset()
         {
-            string data = BuildJSON(GetAllFields());
-            string path = $"Assets/Resources/DoNotTouch/";
+            string data = BuildAssetContent(GetAllFields());
+            string path = "Assets/ERC/";
             string sceneGuid = SceneHash.GetSceneId(SceneManager.GetActiveScene());
             
             if (!System.IO.Directory.Exists(path)) 
                 System.IO.Directory.CreateDirectory(path);
             
-            System.IO.File.WriteAllText($"{path}ERC-{sceneGuid}.json", data);
+            System.IO.File.WriteAllText($"{path}{sceneGuid}.json", data);
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
         }

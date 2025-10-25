@@ -26,7 +26,7 @@ namespace Connor.EasyRemoteConfig.Runtime
         private static async Task<Dictionary<string, string>> GetRemoteFields()
         {
             FirebaseFirestore db = await FirebaseConnect.DB();
-            DocumentReference docRef = db.Collection("Remotes").Document(_context.GetRemoteUID()).Collection(_context.CurrentEnvironment).Document($"ERC-{SceneHash.GetSceneId(SceneManager.GetActiveScene())}");
+            DocumentReference docRef = db.Collection("Remotes").Document(_context.GetRemoteUID()).Collection(_context.CurrentEnvironment).Document(SceneHash.GetSceneId(SceneManager.GetActiveScene()));
             DocumentSnapshot snapshot = await docRef.GetSnapshotAsync();
             if (!snapshot.Exists)
             {
@@ -55,7 +55,10 @@ namespace Connor.EasyRemoteConfig.Runtime
                     var fields = (JObject)script.Value;
                     foreach (var field in fields)
                     {
-                        JToken value = field.Value;
+                        if (field.Value == null)
+                            continue;
+                        
+                        JToken value = field.Value["value"];
                         SetFields(component, field.Key, value);
                     }
                 }
@@ -71,6 +74,7 @@ namespace Connor.EasyRemoteConfig.Runtime
             
             var convertedValue = value.ToObject(field.FieldType);
             field.SetValue(component, convertedValue);
+            Debug.Log("Pulled Remote Values");
         }
     }
 }
