@@ -6,9 +6,11 @@ using Newtonsoft.Json.Linq;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Newtonsoft.Json;
+using UnityEngine;
 
 namespace Connor.EasyRemoteConfig.Runtime
-{ 
+{
     internal static class HandleConversions
     {
         /// <summary>
@@ -17,7 +19,7 @@ namespace Connor.EasyRemoteConfig.Runtime
         /// <param name="valueToConvert">The value that has the undesirable type</param>
         /// <param name="valueToMatchTypeWith">the value that has the desired type</param>
         /// <returns>the converted value</returns>
-        internal static object Convert(object valueToConvert, object valueToMatchTypeWith)
+        internal static object Convert1(object valueToConvert, object valueToMatchTypeWith)
         {
             if (valueToConvert is JArray newCollection)
             {
@@ -28,6 +30,18 @@ namespace Connor.EasyRemoteConfig.Runtime
                 return ConvertArray((Array)valueToMatchTypeWith, newCollection);
             }
             return System.Convert.ChangeType(valueToConvert, valueToMatchTypeWith.GetType());
+        }
+
+        internal static object Convert(object valueToConvert)
+        {
+            var settings = new JsonSerializerSettings
+            {
+                Converters = { new Vector2Converter() },
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                Formatting = Formatting.None
+            };
+            Debug.Log(valueToConvert.ToString());
+            return null;
         }
 
         private static object ConvertList(IList listToConvert, JArray jarray)

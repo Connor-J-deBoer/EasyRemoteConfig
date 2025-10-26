@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Firebase.Firestore;
+using JetBrains.Annotations;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -52,28 +54,20 @@ namespace Connor.EasyRemoteConfig.Runtime
                     if (!component)
                         continue;
                     
-                    var fields = (JObject)script.Value;
-                    foreach (var field in fields)
-                    {
-                        if (field.Value == null)
-                            continue;
-                        
-                        JToken value = field.Value["value"];
-                        SetFields(component, field.Key, value);
-                    }
+                    SetFields(script.Value.ToString(), component);
                 }
             }
         }
 
-        private static void SetFields(Component component, string fieldName, JToken value)
+        private static void SetFields(JToken value, Component component)
         {
-            var type = component.GetType();
-            var field = type.GetField(fieldName, BindingFlags.Public |  BindingFlags.NonPublic | BindingFlags.Instance);
-            if (field == null)
-                return;
-            
-            var convertedValue = value.ToObject(field.FieldType);
-            field.SetValue(component, convertedValue);
+            var settings = new JsonSerializerSettings
+            {
+                Converters = { new Vector2Converter() },
+                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ContractResolver = new ERCResolver()
+            };
+            JsonConvert.PopulateObject(value.ToString(), component, settings);
             Debug.Log("Pulled Remote Values");
         }
     }
