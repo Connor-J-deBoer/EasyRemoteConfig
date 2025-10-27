@@ -19,7 +19,6 @@ namespace Connor.EasyRemoteConfig.Editor
         {
             var settings = new JsonSerializerSettings
             {
-                Converters = { new Vector2Converter() },
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
                 Formatting = Formatting.None
             };

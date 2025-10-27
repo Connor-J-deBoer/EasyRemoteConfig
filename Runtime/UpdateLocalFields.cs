@@ -63,10 +63,11 @@ namespace Connor.EasyRemoteConfig.Runtime
         {
             var settings = new JsonSerializerSettings
             {
-                Converters = { new Vector2Converter() },
                 ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                ObjectCreationHandling = ObjectCreationHandling.Replace,
                 ContractResolver = new ERCResolver()
             };
+            Debug.Log(value.ToString());
             JsonConvert.PopulateObject(value.ToString(), component, settings);
             Debug.Log("Pulled Remote Values");
         }

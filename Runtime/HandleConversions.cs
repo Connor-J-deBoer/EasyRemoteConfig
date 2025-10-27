@@ -32,18 +32,6 @@ namespace Connor.EasyRemoteConfig.Runtime
             return System.Convert.ChangeType(valueToConvert, valueToMatchTypeWith.GetType());
         }
 
-        internal static object Convert(object valueToConvert)
-        {
-            var settings = new JsonSerializerSettings
-            {
-                Converters = { new Vector2Converter() },
-                ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
-                Formatting = Formatting.None
-            };
-            Debug.Log(valueToConvert.ToString());
-            return null;
-        }
-
         private static object ConvertList(IList listToConvert, JArray jarray)
         {
             Type listType = listToConvert.GetType();
