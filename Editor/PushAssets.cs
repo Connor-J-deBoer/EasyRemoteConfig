@@ -8,7 +8,7 @@ using Firebase.Firestore;
 using UnityEditor;
 using UnityEngine;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
     public class PushAssets
     {

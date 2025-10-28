@@ -5,13 +5,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Connor.EasyRemoteConfig.Runtime;
-using Newtonsoft.Json;
+using MQG.EasyRemoteConfig.Runtime;
+using Unity.Plastic.Newtonsoft.Json;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Connor.EasyRemoteConfig.Editor
+namespace MQG.EasyRemoteConfig.Editor
 {
     public static class GetRemoteFields
     {

@@ -6,10 +6,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
+using Unity.Plastic.Newtonsoft.Json;
+using Unity.Plastic.Newtonsoft.Json.Serialization;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
     public class ERCResolver : DefaultContractResolver
     {

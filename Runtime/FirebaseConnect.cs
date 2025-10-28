@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Firebase;
 using Firebase.Firestore;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
     public static class FirebaseConnect
     {

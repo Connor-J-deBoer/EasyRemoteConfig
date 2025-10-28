@@ -2,13 +2,11 @@
 //======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using UnityEditor;
 using UnityEngine.SceneManagement;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
     public static class SceneHash
     {

@@ -4,9 +4,9 @@
 
 using UnityEngine;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
-    [CreateAssetMenu(menuName = "Remote Config Setup/Remote Config Context")]
+    [CreateAssetMenu(menuName = "Remote Config Setup/Remote Config Context", fileName = "Context")]
     public class Context : ScriptableObject
     {
         public string CurrentEnvironment = "Development";

@@ -2,7 +2,7 @@
     "name": "Connor.EasyRemoteConfig.Editor",
     "rootNamespace": "",
     "references": [
-        "GUID:04d858a52142f7f449b689a495939e7a"
+    "GUID:04d858a52142f7f449b689a495939e7a"
     ],
     "includePlatforms": [
         "Editor"

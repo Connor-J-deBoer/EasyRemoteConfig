@@ -1,15 +1,13 @@
 <h1>Easy Remote Config</h1>
-This is a Unity package for Unity 2022.3 that simplifys the proccess of creating a remotely configurable field
+This is a Unity package for Unity 2022.3+ that simplifys the proccess of creating a remotely configurable field
 <br/>
 <br/>
-Current the package only handles simple fields (int, float, string, bool, ect...) as well as basic collections such as lists and arrays
-
 <h1>Example</h1>
 <code>[RemoteField] private int thisFieldIsRemote = 0;</code> 
 <br/>
 and the call
 <br/>
-<code>HandleRemoteFields.Service.UpdateFields();</code>
+<code>Remote.ApplyRemoteValues();</code>
 <br/>
 This call is very expensive, avoid calling this method in loops or update methods because it will seriously affect FPS
 

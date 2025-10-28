@@ -3,21 +3,19 @@
 //=================================================================\\
 
 using System.Collections.Generic;
-using System.Reflection;
 using System.Threading.Tasks;
 using Firebase.Firestore;
-using JetBrains.Annotations;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+using Unity.Plastic.Newtonsoft.Json;
+using Unity.Plastic.Newtonsoft.Json.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-namespace Connor.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Runtime
 {
-    public static class UpdateLocalFields
+    public static class Remote
     {
         private static Context _context => Resources.Load<Context>("Context"); 
-        public static async void Update()
+        public static async void ApplyRemoteValues()
         {
             var allData = await GetRemoteFields();
             string sceneValues = allData[SceneManager.GetActiveScene().name];
@@ -67,9 +65,8 @@ namespace Connor.EasyRemoteConfig.Runtime
                 ObjectCreationHandling = ObjectCreationHandling.Replace,
                 ContractResolver = new ERCResolver()
             };
-            Debug.Log(value.ToString());
             JsonConvert.PopulateObject(value.ToString(), component, settings);
-            Debug.Log("Pulled Remote Values");
+            Debug.LogWarning("Pulled Remote Values");
         }
     }
 }
