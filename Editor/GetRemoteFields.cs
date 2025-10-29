@@ -13,7 +13,7 @@ using UnityEngine.SceneManagement;
 
 namespace MQG.EasyRemoteConfig.Editor
 {
-    public static class GetRemoteFields
+    internal static class GetRemoteFields
     {
         private static void EncodeJSON(MonoBehaviour obj, string[] fieldsString, List<FieldInfo> fields)
         {
@@ -77,7 +77,7 @@ namespace MQG.EasyRemoteConfig.Editor
         private static void CreateAsset()
         {
             string data = BuildAssetContent(GetAllFields());
-            string path = "Assets/ERC/";
+            string path = "Assets/Editor/ERC/";
             string sceneGuid = SceneHash.GetSceneId(SceneManager.GetActiveScene());
             
             if (!System.IO.Directory.Exists(path)) 

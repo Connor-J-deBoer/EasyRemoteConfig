@@ -10,13 +10,13 @@ using UnityEngine;
 
 namespace MQG.EasyRemoteConfig.Runtime
 {
-    public class PushAssets
+    internal class PushAssets
     {
         private static Context _context => Resources.Load<Context>("Context"); 
         [MenuItem("Easy Remote Config/Push Current Assets")]
         private static async void PushCurrentAssets()
         {
-            string[] guids = AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/ERC" });
+            string[] guids = AssetDatabase.FindAssets("t:TextAsset", new[] { "Assets/Editor/ERC/" });
             if (guids.Length == 0)
             {
                 Debug.LogError("No Default Values Found");
