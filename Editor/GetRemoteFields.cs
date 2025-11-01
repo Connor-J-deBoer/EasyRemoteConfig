@@ -1,5 +1,5 @@
 //=================================================================\\
-//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//======Copyright (C) 2025 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
 using System.Collections.Generic;
@@ -15,6 +15,12 @@ namespace MQG.EasyRemoteConfig.Editor
 {
     internal static class GetRemoteFields
     {
+        /// <summary>
+        /// Takes all the data we need, an neatly formates it into an easy to read JSON
+        /// </summary>
+        /// <param name="obj">The script with the fields</param>
+        /// <param name="fieldsString">The array of fields in JSON</param>
+        /// <param name="fields">The list of fields as FieldInfo</param>
         private static void EncodeJSON(MonoBehaviour obj, string[] fieldsString, List<FieldInfo> fields)
         {
             var settings = new JsonSerializerSettings
@@ -29,6 +35,10 @@ namespace MQG.EasyRemoteConfig.Editor
             }
         }
         
+        /// <summary>
+        /// Uses reflection to find all the remotely configurable fields
+        /// </summary>
+        /// <returns>a dictionary of different parts of the final JSON output</returns>
         private static Dictionary<(string, string), string[]> GetAllFields()
         {
             Dictionary<(string, string), string[]> fields = new();
@@ -55,6 +65,11 @@ namespace MQG.EasyRemoteConfig.Editor
             return fields;
         }
         
+        /// <summary>
+        /// Takes our data and converts it to a JSON string
+        /// </summary>
+        /// <param name="fields">All remotely configurable fields, formated to {("GameObject.Name", "Script.Name") All fields as JSON}</param>
+        /// <returns>JSON for Firestore</returns>
         private static string BuildAssetContent(Dictionary<(string, string), string[]> fields)
         {
             string remoteList = "{";

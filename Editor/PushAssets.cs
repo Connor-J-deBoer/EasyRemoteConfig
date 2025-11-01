@@ -1,14 +1,15 @@
 //=================================================================\\
-//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//======Copyright (C) 2025 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
 using System.Collections.Generic;
 using System.Linq;
 using Firebase.Firestore;
+using MQG.EasyRemoteConfig.Runtime;
 using UnityEditor;
 using UnityEngine;
 
-namespace MQG.EasyRemoteConfig.Runtime
+namespace MQG.EasyRemoteConfig.Editor
 {
     internal class PushAssets
     {

@@ -9,5 +9,10 @@
   "description": "Adds a script attribute to make remote configuration as easy as it should be",
   "unity": "2022.3",
   "samples": [
+    {
+      "displayName": "Example",
+      "description": "A basic example of how to use the package with all currently supported types",
+      "path": "Samples~/ExampleScene"
+    }
   ]
 }

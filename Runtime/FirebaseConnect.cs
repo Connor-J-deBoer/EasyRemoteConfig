@@ -1,5 +1,5 @@
 //=================================================================\\
-//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//======Copyright (C) 2025 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
 using System;
@@ -9,16 +9,16 @@ using Firebase.Firestore;
 
 namespace MQG.EasyRemoteConfig.Runtime
 {
-    public static class FirebaseConnect
+    public class FirebaseConnect
     {
         private static FirebaseFirestore _db;
-        
+
         private static async Task InitializeDB()
         {
             var dependencyStatus = await FirebaseApp.CheckAndFixDependenciesAsync();
             if (dependencyStatus != DependencyStatus.Available)
                 throw new Exception("Could not resolve all Firebase dependencies");
-            
+
             _db = FirebaseFirestore.DefaultInstance;
         }
 

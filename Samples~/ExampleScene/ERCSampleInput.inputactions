@@ -1,0 +1,35 @@
+{
+    "version": 1,
+    "name": "ERCSampleInput",
+    "maps": [
+        {
+            "name": "test",
+            "id": "8045a795-d816-4f27-9fb3-587f009219c8",
+            "actions": [
+                {
+                    "name": "Tap",
+                    "type": "Button",
+                    "id": "6ff9c90f-8adf-46f5-8dfa-4575f9165a6c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "aa81dd9f-538e-4289-9082-387c34708690",
+                    "path": "<Touchscreen>/Press",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Tap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

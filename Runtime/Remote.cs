@@ -1,5 +1,5 @@
 //=================================================================\\
-//======Copyright (C) 2024 Connor deBoer, All Rights Reserved======\\
+//======Copyright (C) 2025 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
 using System.Collections.Generic;
@@ -15,6 +15,10 @@ namespace MQG.EasyRemoteConfig.Runtime
     public static class Remote
     {
         private static Context _context => Resources.Load<Context>("Context"); 
+        
+        /// <summary>
+        /// Overwrites every value in the current scene with the RemoteField attribute with the remote values
+        /// </summary>
         public static async void ApplyRemoteValues()
         {
             var allData = await GetRemoteFields();

@@ -2,11 +2,14 @@
 //======Copyright (C) 2025 Connor deBoer, All Rights Reserved======\\
 //=================================================================\\
 
-using System;
+using MQG.EasyRemoteConfig.Runtime;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-namespace MQG.EasyRemoteConfig.Runtime
+public class RemoteManager : MonoBehaviour
 {
-    [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
-    public class RemoteFieldAttribute : PropertyAttribute { }
+    private void OnTap(InputValue inputValue)
+    {
+        Remote.ApplyRemoteValues();
+    }
 }
